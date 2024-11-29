@@ -19,6 +19,7 @@ export type CheckBoxStatusProps = "checked" | "unchecked" | "indeterminate";
 interface CheckBoxProps {
   status: CheckBoxStatusProps;
   onPress: (status: CheckBoxStatusProps) => void;
+  indeterminate?: boolean;
   disabled?: boolean;
   label?: string;
   checkedLabel?: string;
@@ -43,6 +44,7 @@ interface CheckBoxProps {
 const CheckBox: React.FC<CheckBoxProps> = ({
   status,
   onPress,
+  indeterminate = false,
   disabled = false,
   label,
   checkedLabel,
@@ -71,6 +73,8 @@ const CheckBox: React.FC<CheckBoxProps> = ({
   indeterminateColor = indeterminateColor || colors.tint;
   uncheckedColor = uncheckedColor || colors.tabIconDefault;
 
+  status = indeterminate ? status : status === "indeterminate" ? "checked" : status;
+  
   const scale = React.useRef(new Animated.Value(1)).current;
 
   // Animation on press
@@ -121,7 +125,7 @@ const CheckBox: React.FC<CheckBoxProps> = ({
 
   // Handle status toggle
   const handlePress = () => {
-    if (!disabled) {
+    if (!disabled && indeterminate) {
       animatePress();
       const newStatus =
         status === "unchecked"
@@ -129,6 +133,11 @@ const CheckBox: React.FC<CheckBoxProps> = ({
           : status === "checked"
             ? "unchecked"
             : "checked";
+      onPress(newStatus);
+    } else if (!disabled && !indeterminate) {
+      animatePress();
+      const newStatus =
+        status === "unchecked" ? "checked" : "unchecked";
       onPress(newStatus);
     }
   };

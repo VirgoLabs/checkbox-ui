@@ -81,6 +81,19 @@ export default function HomeScreen() {
 
       <ThemedView style={{ gap: 10, paddingBottom: 10 }}>
         <ThemedText type="subtitle">
+          indeterminate
+        </ThemedText>
+        <ThemedText type="default">string</ThemedText>
+        <CheckBox
+          status={status_}
+          onPress={status => setStatus_(status)}
+          label="CheckBox"
+          indeterminate
+        />
+      </ThemedView>
+
+      <ThemedView style={{ gap: 10, paddingBottom: 10 }}>
+        <ThemedText type="subtitle">
           label
         </ThemedText>
         <ThemedText type="default">string</ThemedText>
@@ -287,11 +300,6 @@ export default function HomeScreen() {
           errorColor={'orange'}
         />
       </ThemedView>
-
-
-
-
-
 
     </ParallaxScrollView>
   );
